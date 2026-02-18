@@ -60,13 +60,13 @@ export default function HeroSection() {
                     {/* Top section: label + heading */}
                     <div className="hero-top">
                         <motion.p variants={item} className="hero-label">
-                            Full-Stack Engineer &amp; AI Automation Expert
+                            Hi, I am Usman Ashraf
                         </motion.p>
 
                         <motion.h1 variants={item} className="hero-heading">
-                            Hello, my name
+                            Building Agentic AI
                             <br />
-                            is Usman
+                            & Web Systems
                         </motion.h1>
                     </div>
 

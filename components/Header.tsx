@@ -4,12 +4,13 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
-    { label: "About", href: "#about" },
-    { label: "Projects", href: "#projects" },
-    { label: "Contact", href: "#contact" },
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Projects", href: "/#projects" },
+    { label: "Contact", href: "/#contact" },
 ];
 
-export default function Header() {
+export default function Header({ forceDark = false }: { forceDark?: boolean }) {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -25,7 +26,7 @@ export default function Header() {
     }, [menuOpen]);
 
     return (
-        <header className={`site-header ${scrolled ? "site-header--scrolled" : ""}`}>
+        <header className={`site-header ${scrolled ? "site-header--scrolled" : ""} ${forceDark ? "site-header--dark" : ""}`}>
             <a href="/" className="site-logo" aria-label="Usman Codes — Home">
                 Usman Codes
             </a>

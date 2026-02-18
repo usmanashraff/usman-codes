@@ -138,6 +138,14 @@ a {
   color: var(--accent);
 }
 
+.site-header--dark .nav-link {
+  color: var(--fg);
+}
+
+.site-header--dark .nav-link:hover {
+  color: var(--accent);
+}
+
 .nav-link::after {
   content: "";
   position: absolute;
@@ -185,6 +193,10 @@ a {
 }
 
 .site-header--scrolled .hamburger-line {
+  background: var(--fg);
+}
+
+.site-header--dark .hamburger-line {
   background: var(--fg);
 }
 
@@ -519,6 +531,8 @@ a {
   padding: 80px clamp(24px, 5vw, 80px);
   max-width: 1200px;
   margin: 0 auto;
+  background: var(--bg);
+  /* User requested cream color */
 }
 
 .projects-heading {
@@ -532,17 +546,20 @@ a {
 .project-card {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background: var(--bg-card);
+  background: transparent;
+  /* Changed from var(--bg-card) */
   border-radius: var(--radius-lg);
   overflow: hidden;
   margin-bottom: 40px;
   min-height: 320px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease;
+  border: 1px solid var(--border);
+  /* Added border for definition since bg is gone */
 }
 
 .project-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+  /* Removed shadow */
 }
 
 .project-card--reverse {
@@ -706,4 +723,299 @@ a {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--fg-muted);
+}
+
+/* ── About Page Styles ── */
+.about-page {
+  padding-top: 120px;
+  overflow-x: hidden;
+}
+
+.about-hero {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 60px;
+  min-height: 80vh;
+}
+
+.about-hero-content {
+  max-width: 540px;
+}
+
+.about-heading {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  color: var(--fg);
+}
+
+.about-desc {
+  font-size: 1.1rem;
+  color: var(--fg-muted);
+  margin-bottom: 24px;
+  line-height: 1.7;
+}
+
+/* Circular Blob Portrait */
+.about-portrait-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-circle-blob {
+  position: relative;
+  width: 480px;
+  height: 480px;
+  background: var(--amber);
+  /* Using amber as per reference image yellow/orange */
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.about-portrait-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  filter: grayscale(100%);
+  mix-blend-mode: multiply;
+  transition: all 0.4s ease;
+}
+
+.about-circle-blob:hover .about-portrait-img {
+  filter: grayscale(0%);
+  mix-blend-mode: normal;
+  transform: scale(1.05);
+  margin-bottom: 0;
+}
+
+/* ── Life Sections (Early & Professional) ── */
+.about-life-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.life-section {
+  padding: 100px 24px;
+  background: #fff;
+}
+
+.life-section--alt {
+  background: var(--bg);
+  /* Altering background for separation */
+}
+
+.life-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 80px;
+}
+
+/* Content Side */
+.life-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.section-tag {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 16px;
+  background: rgba(53, 88, 114, 0.08);
+  /* accent-based tint */
+  padding: 6px 14px;
+  border-radius: 100px;
+}
+
+.life-heading {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  color: var(--fg);
+  line-height: 1.2;
+}
+
+.life-underline {
+  width: 60px;
+  height: 4px;
+  background: var(--amber);
+  /* using the yellow/amber from reference */
+  border-radius: 2px;
+  margin-bottom: 24px;
+}
+
+.life-text {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--fg-muted);
+}
+
+/* Image Side */
+.life-image-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.life-image-blob {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Organic shapes */
+.life-image-blob--1 {
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+.life-image-blob--2 {
+  border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;
+}
+
+.life-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.life-image-blob:hover .life-img {
+  transform: scale(1.05);
+}
+
+.life-placeholder-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-weight: 600;
+  font-size: 1.2rem;
+  z-index: 0;
+  /* behind img if img loads, but useful if src is broken */
+}
+
+/* Alternating Layout - Desktop */
+.life-section--alt .life-grid {
+  direction: rtl;
+  /* Simple way to swap columns visually */
+}
+
+.life-section--alt .life-grid>* {
+  direction: ltr;
+  /* Reset direction for content */
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .life-section {
+    padding: 60px 24px;
+  }
+
+  .life-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    direction: ltr !important;
+    /* Reset swap on mobile */
+  }
+
+  .life-image-wrapper {
+    order: 1;
+    /* Image first on mobile? Or text? Let's check user pref. "Under that image" implies Image SECOND. */
+    /* If we want text first, image second: */
+    order: 2;
+    margin-top: 24px;
+  }
+
+  .life-content {
+    order: 1;
+    align-items: center;
+    text-align: center;
+  }
+
+  .life-underline {
+    margin: 0 auto 24px;
+  }
+}
+
+/* Bottom Blob */
+.about-bottom-blob {
+  position: relative;
+  width: 100%;
+  height: auto;
+  line-height: 0;
+  margin-top: 80px;
+}
+
+.about-bottom-blob svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  fill: var(--amber);
+}
+
+/* About Responsive */
+@media (max-width: 900px) {
+  .about-hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 40px;
+    padding-top: 40px;
+  }
+
+  .about-hero-content {
+    order: 1;
+    /* Content first per previous instruction preference? Or image? User said "on small screens first there should be hero text and under that image/blob" for Home. Assuming similar for About unless specified. Reference has text left, image right. */
+    margin: 0 auto;
+  }
+
+  .about-portrait-wrapper {
+    order: 2;
+  }
+
+  .about-circle-blob {
+    width: 320px;
+    height: 320px;
+  }
+
+  .about-heading {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-circle-blob {
+    width: 280px;
+    height: 280px;
+  }
 }

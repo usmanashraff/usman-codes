@@ -546,20 +546,20 @@ a {
 .project-card {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background: transparent;
-  /* Changed from var(--bg-card) */
+  background: #ffffff;
+  /* Explicitly white as requested */
   border-radius: var(--radius-lg);
   overflow: hidden;
   margin-bottom: 40px;
   min-height: 320px;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid var(--border);
-  /* Added border for definition since bg is gone */
 }
 
 .project-card:hover {
   transform: translateY(-4px);
-  /* Removed shadow */
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  /* Re-enabled shadow for lift */
 }
 
 .project-card--reverse {

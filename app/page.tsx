@@ -9,7 +9,7 @@ export default function Home() {
       <Header />
       <main>
         <HeroSection />
-        <ProjectsSection />
+        <ProjectsSection limit={2} />
       </main>
       <Footer />
     </>

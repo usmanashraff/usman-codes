@@ -1,100 +1,267 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
+import { useEffect, useRef, Fragment } from "react";
 
-const container: Variants = {
-    hidden: { opacity: 0 },
-    show: {
-        opacity: 1,
-        transition: { staggerChildren: 0.08, delayChildren: 0.15 },
-    },
-};
+const HEADLINE = "I make things on the web · that don't break ·.";
 
-const item: Variants = {
-    hidden: { opacity: 0, y: 16 },
-    show: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.5, ease: [0.22, 0.9, 0.2, 1] },
-    },
-};
+function WordReveal({
+  text,
+  italic,
+  startDelay = 0,
+}: {
+  text: string;
+  italic?: boolean;
+  startDelay?: number;
+}) {
+  const words = text.trim().split(/\s+/);
+  return (
+    <>
+      {words.map((word, i) => (
+        <Fragment key={i}>
+          <span style={{ display: "inline-block" }}>
+            <span
+              style={{
+                display: "inline-block",
+                overflow: "hidden",
+                verticalAlign: "bottom",
+                paddingBottom: "0.12em",
+                marginBottom: "-0.12em",
+              }}
+            >
+              <motion.span
+                style={{
+                  display: "inline-block",
+                  ...(italic ? { fontStyle: "italic", color: "var(--accent)" } : {}),
+                }}
+                initial={{ y: "110%" }}
+                animate={{ y: 0 }}
+                transition={{
+                  duration: 0.9,
+                  ease: [0.2, 0.7, 0.2, 1],
+                  delay: startDelay + i * 0.055,
+                }}
+              >
+                {word}
+              </motion.span>
+            </span>
+          </span>
+          {i < words.length - 1 ? " " : ""}
+        </Fragment>
+      ))}
+    </>
+  );
+}
 
 export default function HeroSection() {
-    return (
-        <section className="hero" id="about">
-            {/* Hidden SVG clipPath definition */}
-            <svg width="0" height="0" style={{ position: "absolute" }}>
-                <defs>
-                    <clipPath id="blob-clip" clipPathUnits="objectBoundingBox">
-                        <path
-                            d="M 0.22 0
-                               L 1 0
-                               L 1 1
-                               C 0.85 0.97, 0.65 0.92, 0.52 0.82
-                               C 0.37 0.70, 0.31 0.58, 0.32 0.44
-                               C 0.34 0.31, 0.25 0.20, 0.22 0.11
-                               C 0.21 0.06, 0.27 0.01, 0.22 0
-                               Z"
-                        />
-                    </clipPath>
-                </defs>
-            </svg>
+  const progressRef = useRef<HTMLDivElement>(null);
 
-            {/* Blob with portrait */}
-            <div className="hero-blob-container">
-                <div className="hero-blob-clipped">
-                    <div className="hero-blob-bg" />
-                    <img
-                        className="hero-blob-portrait"
-                        src="/usman.jpeg"
-                        alt="Headshot of Usman, full-stack engineer and AI automation specialist"
-                        loading="eager"
-                        decoding="async"
-                    />
-                </div>
-            </div>
+  useEffect(() => {
+    const bar = progressRef.current;
+    if (!bar) return;
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+      bar.style.transform = `scaleX(${pct.toFixed(4)})`;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-            {/* Content grid */}
-            <div className="hero-grid">
-                <motion.div variants={container} initial="hidden" animate="show">
-                    {/* Top section: label + heading */}
-                    <div className="hero-top">
-                        <motion.p variants={item} className="hero-label">
-                            Hi, I am Usman Ashraf
-                        </motion.p>
+  // Split headline on · markers for italic segments
+  const segments = HEADLINE.split("·");
+  let wordCount = 0;
 
-                        <motion.h1 variants={item} className="hero-heading">
-                            Building Agentic AI
-                            <br />
-                            & Web Systems
-                        </motion.h1>
-                    </div>
+  return (
+    <>
+      <div ref={progressRef} className="uc-progress" />
 
-                    {/* Bottom section: description + CTAs */}
-                    <div className="hero-bottom">
-                        <motion.p variants={item} className="hero-desc">
-                            I build production-grade AI agents and full-stack web platforms that
-                            automate decisioning, scale operations, and drive monthly recurring
-                            revenue for ambitious businesses.
-                        </motion.p>
+      <section
+        id="top"
+        style={{
+          paddingTop: 180,
+          paddingBottom: 160,
+          borderTop: "none",
+          overflow: "hidden",
+        }}
+      >
+        {/* Noise overlay */}
+        <div
+          style={{
+            position: "absolute",
+            inset: "-40px 0",
+            pointerEvents: "none",
+            backgroundImage: "url(/noise.svg)",
+            backgroundSize: "200px",
+            opacity: 0.05,
+            mixBlendMode: "multiply",
+          }}
+        />
 
-                        <motion.div variants={item} className="hero-btns">
-                            <a href="#projects" className="btn-primary">
-                                Projects
-                            </a>
-                            <a
-                                href="#contact"
-                                className="btn-outline"
-                            >
-                                Book a Call
-                            </a>
-                        </motion.div>
-                    </div>
-                </motion.div>
+        <div className="uc-container" style={{ position: "relative" }}>
+          {/* Available chip */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "6px 14px 6px 12px",
+              borderRadius: 999,
+              background: "var(--surface-1)",
+              border: "1px solid var(--border)",
+              fontSize: 12,
+              color: "var(--fg-2)",
+              marginBottom: 40,
+            }}
+          >
+            <span
+              style={{
+                width: 7,
+                height: 7,
+                borderRadius: 999,
+                background: "var(--success)",
+                boxShadow: "0 0 0 3px color-mix(in oklab, var(--success) 25%, transparent)",
+              }}
+            />
+            available for freelance work
+          </motion.div>
 
-                {/* Desktop spacer for right column */}
-                <div aria-hidden="true" />
-            </div>
-        </section>
-    );
+          {/* Headline */}
+          <h1
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(48px, 8vw, 112px)",
+              lineHeight: 0.98,
+              letterSpacing: "-0.03em",
+              margin: 0,
+              color: "var(--fg-1)",
+              maxWidth: 900,
+              fontWeight: 400,
+            }}
+          >
+            {segments.map((part, i) => {
+              const isItalic = i % 2 === 1;
+              const trimmed = part.trim();
+              if (!trimmed) return null;
+              const startIdx = wordCount;
+              wordCount += (trimmed.match(/\S+/g) || []).length;
+              const delay = startIdx * 0.055 + 0.3;
+              return (
+                <span key={i}>
+                  <WordReveal text={trimmed} italic={isItalic} startDelay={delay} />
+                  {i < segments.length - 1 && !isItalic ? " " : ""}
+                </span>
+              );
+            })}
+          </h1>
+
+          {/* Lead */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.85 }}
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: 19,
+              lineHeight: 1.6,
+              color: "var(--fg-2)",
+              maxWidth: 540,
+              margin: "40px 0 48px",
+            }}
+          >
+            I build full-stack web applications. Mostly TypeScript, mostly fast and {" "}
+            <em style={{ fontFamily: "var(--font-display)", fontStyle: "italic", color: "var(--accent)", fontSize: '22px' }}>occasionally</em>{" "}
+            beautiful · SaaS products, dashboards, and AI tools that don't fall over.
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.05 }}
+            style={{ display: "flex", gap: 12, flexWrap: "wrap" }}
+          >
+            <HeroCTA primary href="#work">
+              View projects
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </HeroCTA>
+            <HeroCTA href="#contact">Email me</HeroCTA>
+          </motion.div>
+
+          {/* Corner mark */}
+          <motion.div
+            className="hero-cornermark"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 1.25 }}
+            style={{
+              position: "absolute",
+              top: 60,
+              right: 32,
+              fontFamily: "var(--font-mono)",
+              fontSize: 11,
+              color: "var(--fg-3)",
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              textAlign: "right",
+              lineHeight: 1.7,
+            }}
+          >
+            full-stack engineer
+            <br />
+            based in pakistan
+            <br />
+            <span style={{ color: "var(--accent)" }}>● online</span>
+          </motion.div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function HeroCTA({
+  children,
+  primary,
+  href,
+}: {
+  children: React.ReactNode;
+  primary?: boolean;
+  href: string;
+}) {
+  return (
+    <a
+      href={href}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "14px 22px",
+        borderRadius: 8,
+        fontSize: 14,
+        fontWeight: 500,
+        letterSpacing: "-0.01em",
+        background: primary ? "var(--fg-1)" : "transparent",
+        color: primary ? "var(--bg)" : "var(--fg-1)",
+        border: primary
+          ? "1px solid var(--fg-1)"
+          : "1px solid var(--border-strong)",
+        transition: "all 150ms var(--ease)",
+      }}
+      onMouseEnter={(e) => {
+        if (primary) e.currentTarget.style.background = "var(--accent)";
+        else e.currentTarget.style.background = "var(--surface-1)";
+      }}
+      onMouseLeave={(e) => {
+        if (primary) e.currentTarget.style.background = "var(--fg-1)";
+        else e.currentTarget.style.background = "transparent";
+      }}
+    >
+      {children}
+    </a>
+  );
 }

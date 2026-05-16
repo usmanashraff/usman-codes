@@ -1,78 +1,54 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import PageLoader from "@/components/PageLoader";
 import "./globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://usmancodes.dev"),
-  title: "Usman Codes — Full-Stack Engineer & AI Automation Expert",
+  title: "Usman Codes — Full-Stack Engineer",
   description:
-    "Full-stack engineer & AI automation expert building agentic systems and web platforms that drive MRR. Engineering, agent design, and deployment.",
-  keywords: [
-    "Full-Stack Engineer",
-    "AI Automation",
-    "Agentic AI",
-    "Web Development",
-    "MRR Growth",
-    "Systems Architect",
-  ],
+    "Full-stack engineer building web applications. Mostly TypeScript, mostly fast.",
+  keywords: ["Full-Stack Engineer", "Web Development", "TypeScript", "Next.js"],
   openGraph: {
-    title: "Usman Codes — Full-Stack Engineer & AI Automation Expert",
-    description:
-      "Building agentic AI & web systems for high-yield competitive advantage.",
+    title: "Usman Codes — Full-Stack Engineer",
+    description: "Full-stack engineer building web applications. Mostly TypeScript, mostly fast.",
     type: "website",
     locale: "en_US",
     url: "https://usmancodes.dev",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Usman Codes — Full-Stack Engineer & AI Automation Expert",
-    description:
-      "Building agentic AI & web systems for high-yield competitive advantage.",
+    title: "Usman Codes — Full-Stack Engineer",
+    description: "Full-stack engineer building web applications. Mostly TypeScript, mostly fast.",
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Prevent theme flash before hydration */}
         <script
-          type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              name: "Usman",
-              url: "https://usmancodes.dev",
-              jobTitle: "Full-Stack Engineer & AI Automation Expert",
-              knowsAbout: [
-                "Agentic AI",
-                "Full-Stack Development",
-                "AI Automation",
-                "Web Systems",
-              ],
-            }),
+            __html: `(function(){var t=localStorage.getItem('uc-theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t)})()`,
           }}
         />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        {/* Google Fonts */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap"
+          rel="stylesheet"
+        />
       </head>
-      <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
-        {children}
+      <body>
+        <ThemeProvider>
+          <PageLoader />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

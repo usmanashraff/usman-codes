@@ -1,82 +1,363 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import Link from "next/link";
 
-import { projects } from "@/lib/data";
-
-const fadeUp: Variants = {
-    hidden: { opacity: 0, y: 24 },
-    show: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.5, ease: [0.22, 0.9, 0.2, 1] },
-    },
-};
+const PROJECTS = [
+  {
+    n: "01",
+    year: "2025",
+    title: "Qubie",
+    sub: "Chat with your documents",
+    desc: "Upload any document set and query it conversationally. RAG pipeline — OpenAI embeddings stored in Pinecone, JWT-secured REST API, AWS S3 for storage, GraphQL queries, and Stripe billing.",
+    stack: ["Next.js", "Node.js", "OpenAI", "Pinecone", "MySQL", "Stripe", "TypeScript"],
+    live: "https://qubie.vercel.app/",
+    code: "https://github.com/usmanashraff/qubie",
+    featured: true,
+  },
+  {
+    n: "02",
+    year: "2025",
+    title: "Expensey",
+    sub: "Smart expense tracker",
+    desc: "NLP-driven expense entry that understands plain-language input, auto-categorises spend, and generates AI-written monthly summaries alongside live Chart.js dashboards.",
+    stack: ["React.js", "Node.js", "MongoDB", "NLP/LLM", "Chart.js"],
+    live: "https://expenseyy.vercel.app/",
+    code: "https://github.com/usmanashraff/expensey",
+  },
+  {
+    n: "03",
+    year: "2025",
+    title: "VocalSenseAI",
+    sub: "Voice transcription & analysis",
+    desc: "Upload audio, get a full transcription and speech analysis back. React Query polling, JWT-secured file upload API, and a Speech-to-Text AI backend — no complex infrastructure needed.",
+    stack: ["React.js", "Node.js", "Speech-to-Text AI", "shadcn/ui", "TypeScript"],
+    live: "https://vocalsense.vercel.app/",
+    code: "https://github.com/usmanashraff/vocalsenseai",
+  },
+  {
+    n: "04",
+    year: "2025",
+    title: "HashExplorer",
+    sub: "Client-side cryptographic hashing",
+    desc: "Real-time SHA-256 and SHA-3 hashing using the browser's Web Crypto API. Fully client-side — sensitive input never touches a server. Zero backend, zero exposure.",
+    stack: ["JavaScript ES6+", "Web Crypto API", "TailwindCSS"],
+    live: "https://hashexplorer.vercel.app/",
+    code: "https://github.com/usmanashraff/hashexplorer",
+  },
+];
 
 interface ProjectsSectionProps {
-    limit?: number;
+  limit?: number;
 }
 
 export default function ProjectsSection({ limit }: ProjectsSectionProps) {
-    const displayedProjects = limit ? projects.slice(0, limit) : projects;
+  const displayed = limit ? PROJECTS.slice(0, limit) : PROJECTS;
+  const headerRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
+  const headerInView = useInView(headerRef, { once: true, margin: "-10% 0px" });
+  const gridInView = useInView(gridRef, { once: true, margin: "-10% 0px" });
+  const footerInView = useInView(footerRef, { once: true, margin: "-10% 0px" });
 
-    return (
-        <section className="projects-section" id="projects">
-            <motion.h2
-                className="projects-heading"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5 }}
+  return (
+    <section id="work">
+      <div className="uc-container">
+        {/* Header */}
+        <div
+          ref={headerRef}
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "baseline",
+            marginBottom: 56,
+            flexWrap: "wrap",
+            gap: 16,
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="uc-eyebrow">Selected work</span>
+            <h2 className="uc-h2" style={{ marginBottom: 0 }}>
+              Things I&apos;ve shipped, <em>recently</em>.
+            </h2>
+          </motion.div>
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={headerInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 12,
+              color: "var(--fg-3)",
+            }}
+          >
+            04 / 2025
+          </motion.span>
+        </div>
+
+        {/* Grid */}
+        <div
+          ref={gridRef}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gap: 20,
+          }}
+          className="projects-grid"
+        >
+          {displayed.map((p, i) => (
+            <ProjectCard
+              key={p.n}
+              p={p}
+              index={i}
+              inView={gridInView}
+            />
+          ))}
+        </div>
+
+        {/* View all / footer */}
+        <motion.div
+          ref={footerRef}
+          initial={{ opacity: 0, y: 16 }}
+          animate={footerInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          style={{
+            marginTop: 48,
+            paddingTop: 32,
+            borderTop: "1px solid var(--border)",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 16,
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: 15,
+              color: "var(--fg-3)",
+            }}
+          >
+            More in the archive — AI tools, web apps, and a few things that didn&apos;t survive contact with reality.
+          </span>
+          <ViewAllBtn />
+        </motion.div>
+      </div>
+
+      <style>{`
+        @media (max-width: 720px) {
+          .projects-grid { grid-template-columns: 1fr !important; }
+          .projects-grid article { grid-column: span 1 !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+function ProjectCard({
+  p,
+  index,
+  inView,
+}: {
+  p: (typeof PROJECTS)[0];
+  index: number;
+  inView: boolean;
+}) {
+  const [hover, setHover] = useState(false);
+  const fromLeft = index % 2 === 0;
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, x: fromLeft ? -48 : 48, y: 12 }}
+      animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
+      transition={{
+        duration: 0.8,
+        ease: [0.2, 0.7, 0.2, 1],
+        delay: index * 0.12,
+      }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        background: "var(--bg)",
+        border: "1px solid",
+        borderColor: hover ? "var(--border-strong)" : "transparent",
+        borderRadius: 12,
+        padding: 32,
+        display: "flex",
+        flexDirection: "column",
+        gap: 20,
+        gridColumn: p.featured ? "span 2" : "span 1",
+        transform: hover ? "translateY(-2px)" : undefined,
+        boxShadow: hover ? "var(--shadow-hover)" : undefined,
+        transition: "all 300ms var(--ease)",
+      }}
+    >
+      {/* Meta row */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "baseline",
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: 11,
+            color: "var(--fg-3)",
+            textTransform: "uppercase",
+            letterSpacing: "0.06em",
+          }}
+        >
+          {p.n} · {p.year}
+        </span>
+        <div style={{ display: "flex", gap: 14 }}>
+          {p.live && (
+            <a
+              href={p.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontSize: 13,
+                color: "var(--fg-2)",
+                display: "inline-flex",
+                gap: 4,
+                alignItems: "center",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--accent)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--fg-2)")}
             >
-                {limit ? "Featured Projects" : "All Projects"}
-            </motion.h2>
+              Live <span style={{ fontSize: 11 }}>↗</span>
+            </a>
+          )}
+          {p.code && (
+            <a
+              href={p.code}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontSize: 13,
+                color: "var(--fg-2)",
+                display: "inline-flex",
+                gap: 4,
+                alignItems: "center",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--accent)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--fg-2)")}
+            >
+              Code <span style={{ fontSize: 11 }}>↗</span>
+            </a>
+          )}
+        </div>
+      </div>
 
-            {displayedProjects.map((project, i) => (
-                <motion.div
-                    key={project.title}
-                    className={`project-card ${project.reverse ? "project-card--reverse" : ""}`}
-                    variants={fadeUp}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true, margin: "-80px" }}
-                    transition={{ delay: i * 0.1 }}
-                >
-                    <div className="project-card__content">
-                        <h3 className="project-card__title">{project.title}</h3>
-                        <p className="project-card__desc">{project.description}</p>
-                        <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-                            <a href={project.links.demo} target="_blank" rel="noopener noreferrer" className="project-card__btn">
-                                Live Demo
-                            </a>
-                            <a href={project.links.github} target="_blank" rel="noopener noreferrer" className="project-card__btn" style={{ border: "none", paddingLeft: 0 }}>
-                                GitHub
-                            </a>
-                        </div>
-                    </div>
-                    <div className="project-card__image">
-                        <img
-                            src={project.image}
-                            alt={`Screenshot of ${project.title}`}
-                            loading="lazy"
-                            decoding="async"
-                        />
-                    </div>
-                </motion.div>
-            ))}
+      {/* Title */}
+      <div>
+        <h3
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: p.featured ? 44 : 32,
+            fontWeight: 400,
+            lineHeight: 1.05,
+            letterSpacing: "-0.02em",
+            margin: "0 0 6px",
+            color: "var(--fg-1)",
+          }}
+        >
+          {p.title}
+        </h3>
+        <p
+          style={{
+            fontFamily: "var(--font-body)",
+            fontSize: 15,
+            color: "var(--fg-3)",
+            margin: 0,
+            fontStyle: "italic",
+          }}
+        >
+          {p.sub}
+        </p>
+      </div>
 
-            {limit && limit < projects.length && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                    style={{ textAlign: "center", marginTop: "40px" }}
-                >
-                    <a href="/projects" className="btn-primary">
-                        View All Projects
-                    </a>
-                </motion.div>
-            )}
-        </section>
-    );
+      {/* Description */}
+      <p
+        style={{
+          fontFamily: "var(--font-body)",
+          fontSize: 15,
+          lineHeight: 1.6,
+          color: "var(--fg-2)",
+          margin: 0,
+          maxWidth: 520,
+        }}
+      >
+        {p.desc}
+      </p>
+
+      {/* Stack tags */}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 6,
+          marginTop: "auto",
+        }}
+      >
+        {p.stack.map((s) => (
+          <span
+            key={s}
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 11,
+              padding: "4px 8px",
+              borderRadius: 4,
+              background: "var(--surface-1)",
+              color: "var(--fg-3)",
+              letterSpacing: "0.02em",
+            }}
+          >
+            {s}
+          </span>
+        ))}
+      </div>
+    </motion.article>
+  );
+}
+
+function ViewAllBtn() {
+  const [hover, setHover] = useState(false);
+  return (
+    <Link
+      href="/projects"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "12px 20px",
+        borderRadius: 999,
+        border: "1px solid",
+        borderColor: hover ? "var(--fg-1)" : "var(--border-strong)",
+        color: hover ? "var(--bg)" : "var(--fg-1)",
+        fontFamily: "var(--font-body)",
+        fontSize: 14,
+        fontWeight: 500,
+        letterSpacing: "-0.01em",
+        background: hover ? "var(--fg-1)" : "transparent",
+        transition: "all 200ms var(--ease)",
+        whiteSpace: "nowrap",
+      }}
+    >
+      View all projects
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M5 12h14M13 6l6 6-6 6"/>
+      </svg>
+    </Link>
+  );
 }

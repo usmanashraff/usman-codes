@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,300&display=swap');
+    </style>
+  </defs>
+  <!-- Disc: project accent blue #2A4B8C -->
+  <circle cx="16" cy="16" r="16" fill="#2A4B8C"/>
+  <!-- Italic u: accent-fg cream #F7F5F0 -->
+  <text
+    x="16" y="15"
+    font-family="'Fraunces', 'Times New Roman', Georgia, serif"
+    font-style="italic"
+    font-weight="300"
+    font-size="22"
+    fill="#F7F5F0"
+    text-anchor="middle"
+    dominant-baseline="middle"
+  >u</text>
+  <!-- Notch: accent-fg cream, lower-right -->
+  <circle cx="27.5" cy="26.2" r="1.9" fill="#F7F5F0" opacity="0.7"/>
+</svg>

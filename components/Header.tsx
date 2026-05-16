@@ -1,115 +1,272 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
+import { useTheme } from "./ThemeProvider";
+import DiscLogo from "./DiscLogo";
 
 const navLinks = [
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Projects", href: "/#projects" },
-    { label: "Contact", href: "/contact" },
+  { label: "work", href: "/#work" },
+  { label: "services", href: "/#services" },
+  { label: "about", href: "/#about" },
 ];
 
+
+function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
+  const isDark = theme === "dark";
+  return (
+    <button
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label="Toggle theme"
+      style={{
+        width: 32,
+        height: 32,
+        borderRadius: 999,
+        background: "var(--surface-1)",
+        border: "1px solid var(--border)",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "var(--fg-2)",
+        transition: "all 150ms var(--ease)",
+        padding: 0,
+        flexShrink: 0,
+      }}
+    >
+      {isDark ? (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+        </svg>
+      ) : (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      )}
+    </button>
+  );
+}
+
 export default function Header({ forceDark = false }: { forceDark?: boolean }) {
-    const [scrolled, setScrolled] = useState(false);
-    const [menuOpen, setMenuOpen] = useState(false);
+  const { theme } = useTheme();
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-    useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 20);
-        window.addEventListener("scroll", onScroll, { passive: true });
-        return () => window.removeEventListener("scroll", onScroll);
-    }, []);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-    useEffect(() => {
-        document.body.style.overflow = menuOpen ? "hidden" : "";
-        return () => { document.body.style.overflow = ""; };
-    }, [menuOpen]);
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
 
-    return (
-        <header className={`site-header ${scrolled ? "site-header--scrolled" : ""} ${forceDark ? "site-header--dark" : ""}`}>
-            <a href="/" className="site-logo" aria-label="Usman Codes — Home">
-                Usman Codes
-            </a>
+  const bg =
+    theme === "dark"
+      ? "rgba(20,20,26,0.72)"
+      : "rgba(247,245,240,0.72)";
 
-            {/* Desktop Nav */}
-            <nav className="desktop-nav" aria-label="Main navigation">
-                {navLinks.map((link) => (
-                    <a key={link.label} href={link.href} className="nav-link">
-                        {link.label}
-                    </a>
-                ))}
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: 16,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        display: "flex",
+        justifyContent: "center",
+        pointerEvents: "none",
+      }}
+    >
+      <nav
+        style={{
+          pointerEvents: "auto",
+          display: "flex",
+          alignItems: "center",
+          gap: 24,
+          height: 56,
+          padding: "0 8px 0 24px",
+          borderRadius: 999,
+          background: bg,
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          border: "1px solid var(--border)",
+          boxShadow: scrolled ? "var(--shadow-card)" : "none",
+          transition: "box-shadow 200ms var(--ease)",
+        }}
+      >
+        <Link href="/" style={{ display: "flex", alignItems: "center" }}>
+          <DiscLogo discSize={32} wordmarkSize={18} gap={10} />
+        </Link>
 
-                <a
-                    href="https://wa.me/923356670129"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-whatsapp-nav"
-                    aria-label="Contact on WhatsApp"
+        {/* Desktop nav */}
+        <div
+          className="desktop-nav-links"
+          style={{ display: "flex", gap: 22, marginLeft: 8 }}
+        >
+          {navLinks.map((link) => (
+            <NavLink key={link.label} href={link.href}>
+              {link.label}
+            </NavLink>
+          ))}
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginLeft: 8 }}>
+          <ThemeToggle />
+          <Link
+            href="/#contact"
+            style={{
+              fontSize: 13,
+              fontWeight: 500,
+              padding: "8px 16px",
+              borderRadius: 999,
+              background: "var(--fg-1)",
+              color: "var(--bg)",
+              transition: "background 150ms var(--ease)",
+              whiteSpace: "nowrap",
+            }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.background = "var(--accent)")
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.background = "var(--fg-1)")
+            }
+          >
+            email →
+          </Link>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            className="mobile-menu-btn"
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: 999,
+              background: "var(--surface-1)",
+              border: "1px solid var(--border)",
+              display: "none",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 0,
+              flexShrink: 0,
+            }}
+          >
+            {menuOpen ? (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 6L6 18M6 6l12 12"/>
+              </svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+            )}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile menu overlay */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.2, ease: [0.22, 0.9, 0.2, 1] }}
+            style={{
+              position: "fixed",
+              top: 84,
+              left: 16,
+              right: 16,
+              background: bg,
+              backdropFilter: "blur(24px)",
+              WebkitBackdropFilter: "blur(24px)",
+              border: "1px solid var(--border)",
+              borderRadius: 16,
+              padding: "16px 24px",
+              display: "flex",
+              flexDirection: "column",
+              gap: 4,
+              boxShadow: "var(--shadow-pop)",
+              pointerEvents: "auto",
+            }}
+          >
+            {[...navLinks, { label: "contact", href: "/#contact" }].map(
+              (link, i) => (
+                <motion.div
+                  key={link.label}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05, duration: 0.2 }}
                 >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-                    </svg>
-                    WhatsApp Me
-                </a>
-            </nav>
+                  <Link
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    style={{
+                      display: "block",
+                      fontFamily: "var(--font-body)",
+                      fontSize: 15,
+                      fontWeight: 500,
+                      color: "var(--fg-1)",
+                      padding: "12px 0",
+                      borderBottom: "1px solid var(--border)",
+                      letterSpacing: "-0.01em",
+                    }}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
+              )
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-            {/* Mobile Hamburger */}
-            <button
-                className="mobile-menu-btn"
-                onClick={() => setMenuOpen(!menuOpen)}
-                aria-label={menuOpen ? "Close menu" : "Open menu"}
-                aria-expanded={menuOpen}
-            >
-                <div className="hamburger-lines">
-                    <span className={`hamburger-line ${menuOpen ? "hamburger-line--top-open" : ""}`} />
-                    <span className={`hamburger-line ${menuOpen ? "hamburger-line--mid-open" : ""}`} />
-                    <span className={`hamburger-line ${menuOpen ? "hamburger-line--bot-open" : ""}`} />
-                </div>
-            </button>
+      <style>{`
+        @media (max-width: 640px) {
+          .desktop-nav-links { display: none !important; }
+          .mobile-menu-btn { display: inline-flex !important; }
+        }
+      `}</style>
+    </div>
+  );
+}
 
-            {/* Mobile Menu */}
-            <AnimatePresence>
-                {menuOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.25, ease: [0.22, 0.9, 0.2, 1] }}
-                        className="mobile-overlay"
-                    >
-                        {navLinks.map((link, i) => (
-                            <motion.a
-                                key={link.label}
-                                href={link.href}
-                                onClick={() => setMenuOpen(false)}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.06, duration: 0.3 }}
-                                className="mobile-nav-link"
-                            >
-                                {link.label}
-                            </motion.a>
-                        ))}
-
-                        <motion.a
-                            href="https://wa.me/923356670129"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={() => setMenuOpen(false)}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3, duration: 0.3 }}
-                            className="mobile-nav-link"
-                            style={{ color: "#25D366", marginTop: "16px", fontWeight: "700", display: "flex", alignItems: "center", gap: "8px" }}
-                        >
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-                            </svg>
-                            WhatsApp Me
-                        </motion.a>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </header>
-    );
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <Link
+      href={href}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        fontSize: 13,
+        color: "var(--fg-2)",
+        position: "relative",
+        padding: "4px 0",
+        transition: "color 150ms var(--ease)",
+      }}
+    >
+      {children}
+      <span
+        style={{
+          position: "absolute",
+          left: 0,
+          bottom: 0,
+          height: 1,
+          background: "var(--fg-1)",
+          width: hover ? "100%" : 0,
+          transition: "width 200ms var(--ease)",
+        }}
+      />
+    </Link>
+  );
 }

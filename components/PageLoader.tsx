@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import DiscLogo from "./DiscLogo";
 
 export default function PageLoader() {
   const [phase, setPhase] = useState<"visible" | "fading" | "gone">("visible");
 
   useEffect(() => {
-    const MIN_DISPLAY = 900; // ms — let the bar finish its animation
+    const MIN_DISPLAY = 900;
     const start = Date.now();
 
     const dismiss = () => {
@@ -30,9 +31,7 @@ export default function PageLoader() {
   return (
     <div className={`uc-loader${phase === "fading" ? " uc-loader--out" : ""}`}>
       <div className="uc-loader__content">
-        <p className="uc-loader__name">
-          usman<em>.codes</em>
-        </p>
+        <DiscLogo discSize={48} wordmarkSize={26} gap={14} />
         <div className="uc-loader__track">
           <div className="uc-loader__fill" />
         </div>

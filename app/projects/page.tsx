@@ -17,8 +17,8 @@ const ARCHIVE = [
         sub: "chat with your documents",
         desc: "Upload any document set and query it conversationally. RAG pipeline — OpenAI embeddings, Pinecone vector search, JWT auth, AWS S3, GraphQL, and Stripe billing.",
         tags: ["Next.js", "OpenAI", "Pinecone", "MySQL", "Stripe", "TypeScript"],
-        link: "live ↗",
         href: "https://qubie.vercel.app/",
+        codeHref: "https://github.com/usmanashraff/qubie",
       },
       {
         n: "/03",
@@ -26,8 +26,8 @@ const ARCHIVE = [
         sub: "AI-powered expense tracker",
         desc: "NLP-driven expense entry that understands plain-language input, auto-categorises spend, and generates AI-written monthly summaries alongside live dashboards.",
         tags: ["React.js", "Node.js", "MongoDB", "NLP/LLM", "Chart.js"],
-        link: "live ↗",
         href: "https://expenseyy.vercel.app/",
+        codeHref: "https://github.com/usmanashraff/expensey",
       },
       {
         n: "/02",
@@ -35,8 +35,8 @@ const ARCHIVE = [
         sub: "voice transcription & analysis",
         desc: "Upload audio, get a full transcription and speech analysis back. React Query polling, JWT-secured file upload API, and Speech-to-Text AI — no complex infrastructure needed.",
         tags: ["React.js", "Node.js", "Speech-to-Text AI", "shadcn/ui", "TypeScript"],
-        link: "live ↗",
         href: "https://vocalsense.vercel.app/",
+        codeHref: "https://github.com/usmanashraff/vocalsenseai",
       },
       {
         n: "/01",
@@ -44,8 +44,8 @@ const ARCHIVE = [
         sub: "client-side cryptographic hashing",
         desc: "Real-time SHA-256 and SHA-3 hashing using the Web Crypto API. Fully client-side — sensitive input never touches a server. Zero backend, zero exposure.",
         tags: ["JavaScript ES6+", "Web Crypto API", "TailwindCSS"],
-        link: "live ↗",
         href: "https://hashexplorer.vercel.app/",
+        codeHref: "https://github.com/usmanashraff/hashexplorer",
       },
     ],
   },
@@ -59,8 +59,8 @@ const ARCHIVE = [
         sub: "patient management system",
         desc: "Full-stack healthcare platform for registering patients, booking appointments, and managing schedules. Staff dashboard lets you schedule, reschedule, and cancel appointments end-to-end.",
         tags: ["Next.js", "TypeScript", "shadcn/ui", "Appwrite"],
-        link: "live ↗",
         href: "https://careplus-ten.vercel.app/",
+        codeHref: "https://github.com/usmanashraff/PMS_careplus",
       },
       {
         n: "/05",
@@ -68,8 +68,8 @@ const ARCHIVE = [
         sub: "social media app",
         desc: "Feature-complete clone of Instagram's Threads — post threads, reply, follow users, and browse a real-time activity feed. A deep-dive into full-stack social graph mechanics.",
         tags: ["Next.js", "TypeScript", "MongoDB", "Clerk"],
-        link: "live ↗",
         href: "https://threads-green-chi.vercel.app/",
+        codeHref: "https://github.com/usmanashraff/threads",
       },
     ],
   },
@@ -93,7 +93,7 @@ export default function ProjectsPage() {
         {/* Page hero */}
         <section
           style={{
-            padding: "160px 0 96px",
+            padding: "64px 0 80px",
             borderBottom: "1px solid var(--border)",
             position: "relative",
           }}
@@ -318,21 +318,17 @@ function ArchiveRow({ p }: { p: (typeof ARCHIVE)[0]["projects"][0] }) {
   const [hover, setHover] = useState(false);
 
   return (
-    <a
-      href={p.href ?? "#"}
-      target="_blank"
-      rel="noopener noreferrer"
+    <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
         display: "grid",
-        gridTemplateColumns: "80px 1fr 1.5fr 200px 80px",
+        gridTemplateColumns: "80px 1fr 1.5fr 200px 100px",
         gap: 32,
         padding: hover ? "28px 12px" : "28px 0",
         borderTop: "1px solid var(--border)",
         alignItems: "baseline",
         transition: "padding 250ms var(--ease)",
-        textDecoration: "none",
       }}
       className="archive-row"
     >
@@ -403,25 +399,53 @@ function ArchiveRow({ p }: { p: (typeof ARCHIVE)[0]["projects"][0] }) {
           </span>
         ))}
       </div>
-      <span
+      <div
         className="row-arrow"
         style={{
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          gap: 4,
-          fontSize: 12,
-          color: hover ? "var(--accent)" : "var(--fg-3)",
-          fontFamily: "var(--font-mono)",
-          textTransform: "uppercase",
-          letterSpacing: "0.06em",
-          transform: hover ? "translateX(6px)" : "none",
-          transition: "color 200ms var(--ease), transform 200ms var(--ease)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-end",
+          gap: 6,
         }}
       >
-        {p.link}
-      </span>
-    </a>
+        <a
+          href={p.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            fontSize: 11,
+            color: hover ? "var(--accent)" : "var(--fg-3)",
+            fontFamily: "var(--font-mono)",
+            textTransform: "uppercase",
+            letterSpacing: "0.06em",
+            transition: "color 200ms var(--ease)",
+            textDecoration: "none",
+          }}
+        >
+          live ↗
+        </a>
+        {p.codeHref && (
+          <a
+            href={p.codeHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontSize: 11,
+              color: "var(--fg-4)",
+              fontFamily: "var(--font-mono)",
+              textTransform: "uppercase",
+              letterSpacing: "0.06em",
+              transition: "color 200ms var(--ease)",
+              textDecoration: "none",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--fg-2)")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--fg-4)")}
+          >
+            code ↗
+          </a>
+        )}
+      </div>
+    </div>
   );
 }
 

@@ -152,7 +152,7 @@ export default function AboutSection() {
   const skillsInView = useInView(skillsRef, { once: true, margin: "-10% 0px" });
 
   return (
-    <section id="about">
+    <section id="about" style={{ overflowX: "hidden" }}>
       <div className="uc-container">
 
         {/* TOP: Big editorial intro */}

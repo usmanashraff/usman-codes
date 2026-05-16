@@ -13,7 +13,7 @@ export default function Home() {
       <Header />
       <main>
         <HeroSection />
-        <ProjectsSection limit={4} />
+        <ProjectsSection limit={3} />
         <ServicesSection />
         <AboutSection />
         <TestimonialsSection />

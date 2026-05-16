@@ -7,41 +7,59 @@ import Link from "next/link";
 const PROJECTS = [
   {
     n: "01",
-    year: "2025",
-    title: "Qubie",
-    sub: "Chat with your documents",
-    desc: "Upload any document set and query it conversationally. RAG pipeline — OpenAI embeddings stored in Pinecone, JWT-secured REST API, AWS S3 for storage, GraphQL queries, and Stripe billing.",
-    stack: ["Next.js", "Node.js", "OpenAI", "Pinecone", "MySQL", "Stripe", "TypeScript"],
-    live: "https://qubie.vercel.app/",
-    code: "https://github.com/usmanashraff/qubie",
+    year: "2026",
+    title: "3PL Logistics",
+    sub: "Multi-tenant warehouse management system",
+    desc: "A production WMS for 3PL providers. Multi-tenant with full data isolation, real-time inventory across warehouses and bins, and order sync with Shopify, Amazon, Walmart, TikTok Shop, and more.",
+    stack: ["NestJS", "Node.js", "React", "PostgreSQL", "Prisma", "TypeScript", "Tailwind", "shadcn/ui"],
+    live: "https://3pl-logistics.eleaderz.com/",
     featured: true,
   },
   {
     n: "02",
+    year: "2026",
+    title: "businessLibrary",
+    sub: "Marketplace for business document templates",
+    desc: "A WordPress-based digital marketplace for professional document templates. Secure e-commerce via Easy Digital Downloads, automatic DOCX-to-image preview generation with watermarking, and a hybrid React and WordPress dashboard.",
+    stack: ["WordPress", "Easy Digital Downloads", "React", "PHP", "LibreOffice", "Bootstrap", "Elementor"],
+    live: "https://businesslibrary.com.au/",
+  },
+  {
+    n: "03",
+    year: "2025",
+    title: "Qubie",
+    sub: "Chat with your documents",
+    desc: "Upload any document set and query it conversationally. RAG pipeline with OpenAI embeddings, Pinecone vector search, AWS S3 storage, and Stripe billing.",
+    stack: ["Next.js", "Node.js", "OpenAI", "Pinecone", "MySQL", "Stripe", "TypeScript"],
+    live: "https://qubie.vercel.app/",
+    code: "https://github.com/usmanashraff/qubie",
+  },
+  {
+    n: "04",
     year: "2025",
     title: "Expensey",
     sub: "Smart expense tracker",
-    desc: "NLP-driven expense entry that understands plain-language input, auto-categorises spend, and generates AI-written monthly summaries alongside live Chart.js dashboards.",
+    desc: "NLP-driven expense entry that understands plain-language input, auto-categorises spend, and generates AI-written monthly summaries with live dashboards.",
     stack: ["React.js", "Node.js", "MongoDB", "NLP/LLM", "Chart.js"],
     live: "https://expenseyy.vercel.app/",
     code: "https://github.com/usmanashraff/expensey",
   },
   {
-    n: "03",
+    n: "05",
     year: "2025",
     title: "VocalSenseAI",
-    sub: "Voice transcription & analysis",
-    desc: "Upload audio, get a full transcription and speech analysis back. React Query polling, JWT-secured file upload API, and a Speech-to-Text AI backend — no complex infrastructure needed.",
+    sub: "Voice transcription and analysis",
+    desc: "Upload audio and get a full transcription with speech analysis. JWT-secured file upload, React Query polling, and a Speech-to-Text AI backend.",
     stack: ["React.js", "Node.js", "Speech-to-Text AI", "shadcn/ui", "TypeScript"],
     live: "https://vocalsense.vercel.app/",
     code: "https://github.com/usmanashraff/vocalsenseai",
   },
   {
-    n: "04",
+    n: "06",
     year: "2025",
     title: "HashExplorer",
     sub: "Client-side cryptographic hashing",
-    desc: "Real-time SHA-256 and SHA-3 hashing using the browser's Web Crypto API. Fully client-side — sensitive input never touches a server. Zero backend, zero exposure.",
+    desc: "Real-time SHA-256 and SHA-3 hashing via the Web Crypto API. Fully client-side, sensitive input never touches a server.",
     stack: ["JavaScript ES6+", "Web Crypto API", "TailwindCSS"],
     live: "https://hashexplorer.vercel.app/",
     code: "https://github.com/usmanashraff/hashexplorer",
@@ -96,7 +114,7 @@ export default function ProjectsSection({ limit }: ProjectsSectionProps) {
               color: "var(--fg-3)",
             }}
           >
-            04 / 2025
+            06 / 2026
           </motion.span>
         </div>
 

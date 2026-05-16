@@ -8,6 +8,28 @@ import Footer from "@/components/Footer";
 
 const ARCHIVE = [
   {
+    year: "2026",
+    count: "02 projects",
+    projects: [
+      {
+        n: "/02",
+        title: "3PL Logistics",
+        sub: "multi-tenant warehouse management system",
+        desc: "Production WMS for 3PL providers. Multi-tenant with full data isolation, real-time inventory across warehouses and bins, inbound PO handling, outbound fulfillment, and order sync with Shopify, Amazon, Walmart, TikTok Shop, and more.",
+        tags: ["NestJS", "Node.js", "React", "PostgreSQL", "Prisma", "TypeScript", "Tailwind", "shadcn/ui"],
+        href: "https://3pl-logistics.eleaderz.com/",
+      },
+      {
+        n: "/01",
+        title: "businessLibrary",
+        sub: "marketplace for business document templates",
+        desc: "WordPress digital marketplace for professional document templates. Secure e-commerce via Easy Digital Downloads, automatic DOCX-to-image preview generation with watermarking, and a hybrid React and WordPress dashboard.",
+        tags: ["WordPress", "Easy Digital Downloads", "React", "PHP", "LibreOffice", "Bootstrap", "Elementor"],
+        href: "https://businesslibrary.com.au/",
+      },
+    ],
+  },
+  {
     year: "2025",
     count: "04 projects",
     projects: [
@@ -15,7 +37,7 @@ const ARCHIVE = [
         n: "/04",
         title: "Qubie",
         sub: "chat with your documents",
-        desc: "Upload any document set and query it conversationally. RAG pipeline — OpenAI embeddings, Pinecone vector search, JWT auth, AWS S3, GraphQL, and Stripe billing.",
+        desc: "Upload any document set and query it conversationally. RAG pipeline with OpenAI embeddings, Pinecone vector search, AWS S3 storage, and Stripe billing.",
         tags: ["Next.js", "OpenAI", "Pinecone", "MySQL", "Stripe", "TypeScript"],
         href: "https://qubie.vercel.app/",
         codeHref: "https://github.com/usmanashraff/qubie",
@@ -24,7 +46,7 @@ const ARCHIVE = [
         n: "/03",
         title: "Expensey",
         sub: "AI-powered expense tracker",
-        desc: "NLP-driven expense entry that understands plain-language input, auto-categorises spend, and generates AI-written monthly summaries alongside live dashboards.",
+        desc: "NLP-driven expense entry that understands plain-language input, auto-categorises spend, and generates AI-written monthly summaries with live dashboards.",
         tags: ["React.js", "Node.js", "MongoDB", "NLP/LLM", "Chart.js"],
         href: "https://expenseyy.vercel.app/",
         codeHref: "https://github.com/usmanashraff/expensey",
@@ -33,7 +55,7 @@ const ARCHIVE = [
         n: "/02",
         title: "VocalSenseAI",
         sub: "voice transcription & analysis",
-        desc: "Upload audio, get a full transcription and speech analysis back. React Query polling, JWT-secured file upload API, and Speech-to-Text AI — no complex infrastructure needed.",
+        desc: "Upload audio and get a full transcription with speech analysis. JWT-secured file upload, React Query polling, and a Speech-to-Text AI backend.",
         tags: ["React.js", "Node.js", "Speech-to-Text AI", "shadcn/ui", "TypeScript"],
         href: "https://vocalsense.vercel.app/",
         codeHref: "https://github.com/usmanashraff/vocalsenseai",
@@ -42,7 +64,7 @@ const ARCHIVE = [
         n: "/01",
         title: "HashExplorer",
         sub: "client-side cryptographic hashing",
-        desc: "Real-time SHA-256 and SHA-3 hashing using the Web Crypto API. Fully client-side — sensitive input never touches a server. Zero backend, zero exposure.",
+        desc: "Real-time SHA-256 and SHA-3 hashing via the Web Crypto API. Fully client-side, sensitive input never touches a server.",
         tags: ["JavaScript ES6+", "Web Crypto API", "TailwindCSS"],
         href: "https://hashexplorer.vercel.app/",
         codeHref: "https://github.com/usmanashraff/hashexplorer",
@@ -57,7 +79,7 @@ const ARCHIVE = [
         n: "/06",
         title: "CarePlus",
         sub: "patient management system",
-        desc: "Full-stack healthcare platform for registering patients, booking appointments, and managing schedules. Staff dashboard lets you schedule, reschedule, and cancel appointments end-to-end.",
+        desc: "Full-stack healthcare platform for registering patients, booking appointments, and managing schedules. Staff dashboard for end-to-end appointment control.",
         tags: ["Next.js", "TypeScript", "shadcn/ui", "Appwrite"],
         href: "https://careplus-ten.vercel.app/",
         codeHref: "https://github.com/usmanashraff/PMS_careplus",
@@ -66,7 +88,7 @@ const ARCHIVE = [
         n: "/05",
         title: "Threads",
         sub: "social media app",
-        desc: "Feature-complete clone of Instagram's Threads — post threads, reply, follow users, and browse a real-time activity feed. A deep-dive into full-stack social graph mechanics.",
+        desc: "Feature-complete clone of Instagram's Threads. Post, reply, follow users, and browse a real-time activity feed built on a full-stack social graph.",
         tags: ["Next.js", "TypeScript", "MongoDB", "Clerk"],
         href: "https://threads-green-chi.vercel.app/",
         codeHref: "https://github.com/usmanashraff/threads",
@@ -76,9 +98,9 @@ const ARCHIVE = [
 ];
 
 const STATS = [
-  { n: "6", l: "projects shipped" },
+  { n: "8", l: "projects shipped" },
   { n: "3", l: "AI-powered" },
-  { n: "6", l: "live in production" },
+  { n: "8", l: "live in production" },
   { n: "2", l: "open source" },
 ];
 
@@ -132,7 +154,7 @@ export default function ProjectsPage() {
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.05 }}
             >
-              Work · 2025
+              Work · 2026
             </motion.span>
 
             <motion.h1
@@ -150,7 +172,7 @@ export default function ProjectsPage() {
                 maxWidth: 1100,
               }}
             >
-              Six projects,{" "}
+              Eight projects,{" "}
               <em style={{ fontStyle: "italic", color: "var(--accent)" }}>
                 all of them shipped
               </em>
@@ -170,7 +192,7 @@ export default function ProjectsPage() {
                 margin: "32px 0 0",
               }}
             >
-              A complete look at what I&apos;ve built — AI document search, expense intelligence, voice analysis, and cryptographic tooling. All live, all production-grade.
+              A complete look at what I&apos;ve built: a production WMS, a document marketplace, AI tools, and more. All live, all production-grade.
             </motion.p>
 
             {/* Stats bar */}

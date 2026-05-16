@@ -152,7 +152,7 @@ export default function AboutSection() {
   const skillsInView = useInView(skillsRef, { once: true, margin: "-10% 0px" });
 
   return (
-    <section id="about" style={{ overflowX: "hidden" }}>
+    <section id="about">
       <div className="uc-container">
 
         {/* TOP: Big editorial intro */}
@@ -195,8 +195,8 @@ export default function AboutSection() {
         >
           {/* Portrait — 5 cols */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={midInView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0, y: 32 }}
+            animate={midInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.9, ease: [0.2, 0.7, 0.2, 1] }}
           >
             <PortraitFrame />
@@ -216,8 +216,8 @@ export default function AboutSection() {
 
           {/* Prose — 7 cols */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={midInView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0, y: 32 }}
+            animate={midInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.9, ease: [0.2, 0.7, 0.2, 1] }}
             style={{
               display: "flex",

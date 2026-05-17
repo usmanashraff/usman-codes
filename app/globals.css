@@ -276,6 +276,161 @@ section + section { border-top: 1px solid var(--border); }
   to   { width: 100%; }
 }
 
+/* ── Toolbox ── */
+.tb-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.tb-tab {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fg-3);
+  background: transparent;
+  border: 0;
+  padding: 6px 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  transition: color 200ms var(--ease), background-color 200ms var(--ease);
+}
+.tb-tab:hover { color: var(--fg-1); }
+.tb-tab.is-active { color: var(--accent-fg); background: var(--accent); }
+.tb-tab-count {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  opacity: 0.6;
+}
+.tb-tab.is-active .tb-tab-count { opacity: 0.75; }
+
+.tb-rows { display: flex; flex-direction: column; }
+.tb-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 24px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: baseline;
+  transition: opacity 350ms var(--ease);
+}
+.tb-row:first-child { border-top: 1px solid var(--border); }
+.tb-row.is-dim { opacity: 0.18; }
+.tb-row-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding-top: 4px;
+}
+.tb-row-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tb-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px 4px 4px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fg-1);
+  line-height: 1;
+  cursor: default;
+  user-select: none;
+  transition: border-color 200ms var(--ease), transform 200ms var(--ease);
+}
+.tb-chip:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+.tb-chip.is-daily::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+.tb-tile {
+  position: relative;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--fg-2);
+  overflow: hidden;
+  transition: border-color 250ms var(--ease);
+}
+.tb-tile-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: color 250ms var(--ease);
+}
+.tb-tile-ink {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 0;
+  background: var(--accent);
+  z-index: 1;
+  transition: height 380ms var(--ease);
+}
+.tb-chip:hover .tb-tile { border-color: var(--accent); }
+.tb-chip:hover .tb-tile-content { color: var(--accent-fg); }
+.tb-chip:hover .tb-tile-ink { height: 100%; }
+
+.tb-monogram {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: inherit;
+}
+
+@media (max-width: 720px) {
+  .tb-row { grid-template-columns: 1fr; gap: 8px; padding: 14px 0; }
+  .tb-row-label { padding-top: 0; }
+}
+
+/* ── Social pills ── */
+.social-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px 8px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  text-decoration: none;
+  color: var(--fg-1);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  transition: border-color 200ms var(--ease), transform 200ms var(--ease);
+}
+.social-pill:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+.social-pill:hover .tb-tile { border-color: var(--accent); }
+.social-pill:hover .tb-tile-content { color: var(--accent-fg); }
+.social-pill:hover .tb-tile-ink { height: 100%; }
+
 /* ── Nav link underline ── */
 .uc-navlink {
   font-size: 13px;

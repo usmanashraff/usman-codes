@@ -6,6 +6,41 @@ import emailjs from "@emailjs/browser";
 
 const BUDGETS = ["< $10k", "$10–25k", "$25–50k", "$50k+", "not sure yet"];
 
+const SOCIALS = [
+  {
+    href: "https://www.linkedin.com/in/usman-ashraf-304145274/",
+    label: "LinkedIn",
+    handle: "@usman-ashraf",
+    icon: (
+      <>
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+        <rect x="2" y="9" width="4" height="12" />
+        <circle cx="4" cy="4" r="2" />
+      </>
+    ),
+  },
+  {
+    href: "https://www.instagram.com/usmanashrraf/",
+    label: "Instagram",
+    handle: "@usmanashrraf",
+    icon: (
+      <>
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <circle cx="12" cy="12" r="4" />
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+      </>
+    ),
+  },
+  {
+    href: "https://github.com/usmanashraff",
+    label: "GitHub",
+    handle: "@usmanashraff",
+    icon: (
+      <path d="M9 19c-3 1-3-1-4-2m13 4v-3a3 3 0 0 0-1-2c3 0 5-2 5-5 0-1.2-.4-2.3-1-3 .3-1 .3-2 0-3 0 0-1 0-3 1.3-2-.5-4-.5-6 0C7 4.7 6 4.7 6 4.7c-.3 1-.3 2 0 3-.6.7-1 1.8-1 3 0 3 2 5 5 5a3 3 0 0 0-1 2v3" />
+    ),
+  },
+];
+
 const STEPS: [string, string, string][] = [
   ["01", "You send the note", "I read it carefully and reply within a day."],
   ["02", "A short call", "30 minutes — make sure we're a fit."],
@@ -184,34 +219,41 @@ export default function ContactSection() {
               margin: "24px auto 0",
             }}
           >
-            Tell me a little about it below. I read every note and reply within ~24 hours.
+            Tell me a little about it below. I read every note and reply within ~12 hours.
           </p>
 
-          {/* Availability chip */}
+          {/* Social links */}
           <div
             style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              marginTop: 24,
-              padding: "6px 14px 6px 12px",
-              borderRadius: 999,
-              background: "var(--surface-1)",
-              border: "1px solid var(--border)",
-              fontSize: 12,
-              color: "var(--fg-2)",
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              gap: 10,
+              marginTop: 28,
             }}
           >
-            <span
-              style={{
-                width: 7,
-                height: 7,
-                borderRadius: 999,
-                background: "var(--success)",
-                boxShadow: "0 0 0 3px color-mix(in oklab, var(--success) 25%, transparent)",
-              }}
-            />
-            available · 2 slots open for Q3 2026
+            {SOCIALS.map(({ href, label, handle, icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-pill"
+              >
+                <span className="tb-tile">
+                  <span className="tb-tile-ink" />
+                  <span className="tb-tile-content">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round">
+                      {icon}
+                    </svg>
+                  </span>
+                </span>
+                {label}
+                <span style={{ color: "var(--fg-3)", fontWeight: 400 }}>{handle}</span>
+              </a>
+            ))}
           </div>
         </motion.div>
 
@@ -519,26 +561,26 @@ export default function ContactSection() {
 
       <style>{`
         @media (max-width: 900px) {
-          .steps-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-          .steps-grid > div {
-            border-right: 1px solid var(--border) !important;
-            border-bottom: 1px solid var(--border);
-          }
+          .steps-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .steps-grid > div { border-right: 1px solid var(--border) !important; border-bottom: 1px solid var(--border); }
           .steps-grid > div:nth-child(even) { border-right: none !important; }
           .steps-grid > div:nth-last-child(-n+2) { border-bottom: none; }
         }
         @media (max-width: 600px) {
-          .steps-grid {
-            grid-template-columns: 1fr !important;
-          }
-          .steps-grid > div {
-            border-right: none !important;
-            border-bottom: 1px solid var(--border) !important;
-          }
+          .steps-grid { grid-template-columns: 1fr !important; }
+          .steps-grid > div { border-right: none !important; border-bottom: 1px solid var(--border) !important; }
           .steps-grid > div:last-child { border-bottom: none !important; }
         }
+
+        /* Social pills + shared tile styles */
+        .tb-tile { position:relative; flex-shrink:0; width:24px; height:24px; border-radius:999px; border:1px solid var(--border); background:var(--bg); color:var(--fg-2); overflow:hidden; transition:border-color 250ms var(--ease); }
+        .tb-tile-content { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:2; transition:color 250ms var(--ease); }
+        .tb-tile-ink { position:absolute; left:0; right:0; bottom:0; height:0; background:var(--accent); z-index:1; transition:height 380ms var(--ease); }
+        .social-pill { display:inline-flex; align-items:center; gap:10px; padding:8px 14px 8px 8px; border-radius:999px; border:1px solid var(--border); background:var(--bg); text-decoration:none; color:var(--fg-1); font-family:var(--font-body); font-size:13px; font-weight:500; transition:border-color 200ms var(--ease),transform 200ms var(--ease); }
+        .social-pill:hover { border-color:var(--border-strong); transform:translateY(-2px); }
+        .social-pill:hover .tb-tile { border-color:var(--accent); }
+        .social-pill:hover .tb-tile-content { color:var(--accent-fg); }
+        .social-pill:hover .tb-tile-ink { height:100%; }
       `}</style>
     </section>
   );

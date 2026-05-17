@@ -8,7 +8,8 @@
       "Bash(Start-Sleep -Seconds 5)",
       "Bash(Get-Content \"C:\\\\Users\\\\FINECO~1\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--me-projects-usmancodes\\\\dc098ca0-56ba-459d-a3e4-6e0960a0cdd8\\\\tasks\\\\bvqixc7x5.output\" -Tail 20)",
       "Bash(python -c ' *)",
-      "Bash(python *)"
+      "Bash(python *)",
+      "Bash(Get-ChildItem *)"
     ]
   }
 }

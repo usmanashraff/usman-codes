@@ -255,7 +255,7 @@ function ServiceRow({
 }
 
 export default function ServicesSection() {
-  const [openIdx, setOpenIdx] = useState(0);
+  const [openIdx, setOpenIdx] = useState(-1);
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
 

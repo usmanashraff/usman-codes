@@ -106,8 +106,8 @@ export default function ContactSection() {
 
   const update =
     (k: keyof typeof form) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setForm({ ...form, [k]: e.target.value });
+      (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+        setForm({ ...form, [k]: e.target.value });
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -354,8 +354,8 @@ export default function ContactSection() {
               {submitted
                 ? "✓ noted — i'll be in touch within 24h"
                 : error
-                ? error
-                : "or email hello@usman.codes directly"}
+                  ? error
+                  : "or email usmanscodes@gmail.com directly"}
             </span>
             <button
               type="submit"

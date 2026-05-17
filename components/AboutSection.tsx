@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import CountUp from "./CountUp";
 
 const SKILLS: Record<string, string[]> = {
   Languages: ["TypeScript", "JavaScript", "Go", "SQL", "Python", "Swift"],
@@ -11,13 +12,6 @@ const SKILLS: Record<string, string[]> = {
   Infra: ["Vercel", "Cloudflare Workers", "Fly.io", "Docker", "GitHub Actions"],
   AI: ["OpenAI", "Anthropic", "LangGraph", "Vercel AI SDK", "Inngest"],
 };
-
-const NOW = [
-  { label: "reading", value: "Working in Public — Nadia Eghbal" },
-  { label: "listening", value: "Tigran Hamasyan, Standards" },
-  { label: "building", value: "A small CRDT-based notes app, for me" },
-  { label: "learning", value: "Effect.ts — finally getting serious" },
-];
 
 function PortraitFrame() {
   return (
@@ -114,7 +108,8 @@ function StatCard({ value, label, accent }: { value: string; label: string; acce
         (e.currentTarget as HTMLElement).style.transform = "none";
       }}
     >
-      <span
+      <CountUp
+        value={value}
         style={{
           fontFamily: "var(--font-display)",
           fontSize: 56,
@@ -123,9 +118,7 @@ function StatCard({ value, label, accent }: { value: string; label: string; acce
           color: accent ? "var(--accent)" : "var(--fg-1)",
           fontWeight: 400,
         }}
-      >
-        {value}
-      </span>
+      />
       <span
         style={{
           fontFamily: "var(--font-mono)",
@@ -144,11 +137,9 @@ function StatCard({ value, label, accent }: { value: string; label: string; acce
 export default function AboutSection() {
   const topRef = useRef<HTMLDivElement>(null);
   const midRef = useRef<HTMLDivElement>(null);
-  const nowRef = useRef<HTMLDivElement>(null);
   const skillsRef = useRef<HTMLDivElement>(null);
   const topInView = useInView(topRef, { once: true, margin: "-10% 0px" });
   const midInView = useInView(midRef, { once: true, margin: "-10% 0px" });
-  const nowInView = useInView(nowRef, { once: true, margin: "-10% 0px" });
   const skillsInView = useInView(skillsRef, { once: true, margin: "-10% 0px" });
 
   return (
@@ -178,7 +169,7 @@ export default function AboutSection() {
           >
             A developer who{" "}
             <em style={{ fontStyle: "italic", color: "var(--accent)" }}>also reads</em>
-            . Four years of shipping software for people who use it.
+            . Five years of shipping software for people who use it.
           </h2>
         </motion.div>
 
@@ -210,7 +201,7 @@ export default function AboutSection() {
                 margin: "14px 0 0",
               }}
             >
-              ↓ London · full-stack · independent
+              ↓ Pakistan · full-stack · independent
             </p>
           </motion.div>
 
@@ -237,7 +228,7 @@ export default function AboutSection() {
                 letterSpacing: "-0.01em",
               }}
             >
-              I&apos;m Usman, a full-stack engineer with a decade of shipping software for the web.
+              I&apos;m Usman, a full-stack engineer with 5 Years of shipping software for the web.
             </p>
             <p
               style={{
@@ -248,7 +239,7 @@ export default function AboutSection() {
                 margin: 0,
               }}
             >
-              Started in product engineering at a small fintech. Spent four years at a venture-backed CMS company. Independent since 2023. I&apos;m happiest in the seam between design and infrastructure — turning a clean idea into a fast, observable, maintainable system.
+              Started in product engineering at a small fintech. Spent five years at a venture-backed CMS company. Independent since 2023. I&apos;m happiest in the seam between design and infrastructure, turning a clean idea into a fast, observable, maintainable system.
             </p>
             <p
               style={{
@@ -271,103 +262,12 @@ export default function AboutSection() {
                 marginTop: 8,
               }}
             >
-              <StatCard value="10+" label="years shipping" accent />
+              <StatCard value="5+" label="years shipping" accent />
               <StatCard value="40+" label="projects shipped" />
               <StatCard value="3" label="years independent" />
             </div>
           </motion.div>
         </div>
-
-        {/* NOW PANEL */}
-        <motion.div
-          ref={nowRef}
-          initial={{ opacity: 0, y: 16 }}
-          animate={nowInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          style={{
-            padding: "32px 32px",
-            background: "var(--surface-1)",
-            border: "1px solid var(--border)",
-            borderRadius: 16,
-            marginBottom: 80,
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "baseline",
-              gap: 16,
-              marginBottom: 24,
-            }}
-          >
-            <span
-              style={{
-                width: 8,
-                height: 8,
-                borderRadius: 999,
-                background: "var(--accent)",
-                boxShadow: "0 0 0 4px color-mix(in oklab, var(--accent) 25%, transparent)",
-                flexShrink: 0,
-              }}
-            />
-            <h3
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: 32,
-                fontWeight: 400,
-                margin: 0,
-                letterSpacing: "-0.02em",
-                color: "var(--fg-1)",
-              }}
-            >
-              Right now{" "}
-              <em style={{ fontStyle: "italic", color: "var(--fg-3)" }}>· May 2026</em>
-            </h3>
-          </div>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: 0,
-            }}
-            className="now-grid"
-          >
-            {NOW.map((n, i) => (
-              <div
-                key={n.label}
-                style={{
-                  padding: "12px 20px 12px 0",
-                  borderRight: i < NOW.length - 1 ? "1px solid var(--border)" : "none",
-                  paddingLeft: i === 0 ? 0 : 24,
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 10,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                    color: "var(--fg-3)",
-                    display: "block",
-                    marginBottom: 6,
-                  }}
-                >
-                  {n.label}
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: 14,
-                    lineHeight: 1.45,
-                    color: "var(--fg-1)",
-                  }}
-                >
-                  {n.value}
-                </span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
 
         {/* SKILLS — The toolbox */}
         <motion.div
@@ -469,28 +369,10 @@ export default function AboutSection() {
             max-width: 360px;
             margin: 0 auto;
           }
-          .now-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 16px !important;
-          }
-          .now-grid > div {
-            border-right: none !important;
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-            border-bottom: 1px solid var(--border);
-          }
-          .now-grid > div:nth-last-child(-n+2) { border-bottom: none; }
           .skills-grid {
             grid-template-columns: 1fr !important;
             gap: 0 !important;
           }
-        }
-        @media (max-width: 480px) {
-          .now-grid {
-            grid-template-columns: 1fr !important;
-          }
-          .now-grid > div:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
-          .now-grid > div:last-child { border-bottom: none; }
         }
       `}</style>
     </section>

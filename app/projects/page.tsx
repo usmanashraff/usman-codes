@@ -5,8 +5,25 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import CountUp from "@/components/CountUp";
 
-const ARCHIVE = [
+interface Project {
+  n: string;
+  title: string;
+  sub: string;
+  desc: string;
+  tags: string[];
+  href: string;
+  codeHref?: string;
+}
+
+interface ArchiveGroup {
+  year: string;
+  count: string;
+  projects: Project[];
+}
+
+const ARCHIVE: ArchiveGroup[] = [
   {
     year: "2026",
     count: "02 projects",
@@ -212,7 +229,8 @@ export default function ProjectsPage() {
             >
               {STATS.map((s) => (
                 <div key={s.l} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                  <span
+                  <CountUp
+                    value={s.n}
                     style={{
                       fontFamily: "var(--font-display)",
                       fontSize: 40,
@@ -220,9 +238,7 @@ export default function ProjectsPage() {
                       lineHeight: 1,
                       letterSpacing: "-0.02em",
                     }}
-                  >
-                    {s.n}
-                  </span>
+                  />
                   <span
                     style={{
                       fontFamily: "var(--font-mono)",
@@ -269,7 +285,7 @@ function YearGroup({
   group,
   groupIndex,
 }: {
-  group: (typeof ARCHIVE)[0];
+  group: ArchiveGroup;
   groupIndex: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -336,7 +352,7 @@ function YearGroup({
   );
 }
 
-function ArchiveRow({ p }: { p: (typeof ARCHIVE)[0]["projects"][0] }) {
+function ArchiveRow({ p }: { p: Project }) {
   const [hover, setHover] = useState(false);
 
   return (

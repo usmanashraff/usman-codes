@@ -49,8 +49,7 @@ function ThemeToggle() {
   );
 }
 
-export default function Header({ forceDark = false }: { forceDark?: boolean }) {
-  const { theme } = useTheme();
+export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -65,11 +64,6 @@ export default function Header({ forceDark = false }: { forceDark?: boolean }) {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
-
-  const bg =
-    theme === "dark"
-      ? "rgba(20,20,26,0.72)"
-      : "rgba(247,245,240,0.72)";
 
   return (
     <div
@@ -93,7 +87,7 @@ export default function Header({ forceDark = false }: { forceDark?: boolean }) {
           height: 56,
           padding: "0 8px 0 24px",
           borderRadius: 999,
-          background: bg,
+          background: "var(--nav-bg)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
           border: "1px solid var(--border)",
@@ -186,7 +180,7 @@ export default function Header({ forceDark = false }: { forceDark?: boolean }) {
               top: 84,
               left: 16,
               right: 16,
-              background: bg,
+              background: "var(--nav-bg)",
               backdropFilter: "blur(24px)",
               WebkitBackdropFilter: "blur(24px)",
               border: "1px solid var(--border)",
@@ -241,32 +235,9 @@ export default function Header({ forceDark = false }: { forceDark?: boolean }) {
 }
 
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
-  const [hover, setHover] = useState(false);
   return (
-    <Link
-      href={href}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      style={{
-        fontSize: 13,
-        color: "var(--fg-2)",
-        position: "relative",
-        padding: "4px 0",
-        transition: "color 150ms var(--ease)",
-      }}
-    >
+    <Link href={href} className="uc-navlink">
       {children}
-      <span
-        style={{
-          position: "absolute",
-          left: 0,
-          bottom: 0,
-          height: 1,
-          background: "var(--fg-1)",
-          width: hover ? "100%" : 0,
-          transition: "width 200ms var(--ease)",
-        }}
-      />
     </Link>
   );
 }

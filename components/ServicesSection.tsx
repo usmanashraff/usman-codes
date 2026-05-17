@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, memo } from "react";
 
 const SERVICES = [
   {
@@ -38,7 +38,7 @@ const SERVICES = [
   },
 ];
 
-function ServiceRow({
+const ServiceRow = memo(function ServiceRow({
   s,
   isOpen,
   onToggle,
@@ -252,7 +252,7 @@ function ServiceRow({
       </div>
     </article>
   );
-}
+});
 
 export default function ServicesSection() {
   const [openIdx, setOpenIdx] = useState(-1);

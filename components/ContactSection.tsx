@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback } from "react";
 import emailjs from "@emailjs/browser";
 
 const BUDGETS = ["< $10k", "$10–25k", "$25–50k", "$50k+", "not sure yet"];
@@ -104,10 +104,12 @@ export default function ContactSection() {
   const [error, setError] = useState("");
   const [hoverBtn, setHoverBtn] = useState(false);
 
-  const update =
+  const update = useCallback(
     (k: keyof typeof form) =>
       (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-        setForm({ ...form, [k]: e.target.value });
+        setForm((prev) => ({ ...prev, [k]: e.target.value })),
+    []
+  );
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -2,6 +2,17 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useState, useCallback, memo } from "react";
+import type { IconType } from "react-icons";
+import {
+  SiTypescript, SiJavascript, SiPython, SiPhp, SiHtml5, SiCss,
+  SiReact, SiNextdotjs, SiAngular, SiVuedotjs,
+  SiNodedotjs, SiNestjs, SiExpress, SiLaravel, SiDjango,
+  SiGraphql, SiRabbitmq,
+  SiPostgresql, SiMongodb, SiMysql, SiRedis, SiPrisma,
+  SiDocker, SiGithubactions, SiVercel, SiNginx,
+  SiGit, SiGithub, SiGitlab,
+  SiOpenai,
+} from "react-icons/si";
 import CountUp from "./CountUp";
 
 // ── Data ────────────────────────────────────────────────────────────────────
@@ -66,55 +77,46 @@ const TECH = [
   { id: "pinecone",    name: "Pinecone",        cat: "ai",       tier: "often" },
 ];
 
-// Single-stroke geometric SVGs on a 24×24 grid
-const GLYPHS: Record<string, string[]> = {
-  typescript:  ["M3 6h6M6 6v12", "M14 9c.5-.7 1.3-1 2.2-1 1.3 0 2.3.6 2.3 1.7 0 2-4.5 1.7-4.5 4 0 1.1.9 1.7 2.2 1.7.9 0 1.7-.3 2.3-1"],
-  javascript:  ["M8.5 6v10c0 1.4-1 2-2 2", "M14 8c.6-.7 1.5-1 2.5-1 1.5 0 2.5.8 2.5 2 0 2.5-5 2-5 4.5 0 1.2 1 2 2.5 2 1 0 1.9-.3 2.5-1"],
-  python:      ["M12 4h-3a3 3 0 0 0-3 3v3h9a2 2 0 0 1 2 2v3a3 3 0 0 1-3 3h-2", "M12 20h3a3 3 0 0 0 3-3v-3H9a2 2 0 0 1-2-2V9a3 3 0 0 1 3-3h2", "M9 7.5h.01", "M15 16.5h.01"],
-  php:         ["M3 8c4-1 9-1 13 0 4 1 5 5 0 6-3 .7-6 .7-9 0", "M8 10v6M14 10v6"],
-  html:        ["m6 3 1 17 5 1 5-1 1-17z", "M8 7h8l-.5 5H10M9.5 14h5l-.4 3-2 .7-2-.7"],
-  css:         ["m6 3 1 17 5 1 5-1 1-17z", "M8 7h8M9 11h7l-.5 6-3.5 1.2L8 17"],
-  json:        ["M9 4c-1.2 0-2 .8-2 2v3c0 1-.5 1.5-1.5 1.5M5.5 12.5C6.5 12.5 7 13 7 14v3c0 1.2.8 2 2 2", "M15 4c1.2 0 2 .8 2 2v3c0 1 .5 1.5 1.5 1.5M18.5 12.5C17.5 12.5 17 13 17 14v3c0 1.2-.8 2-2 2", "M12 12h.01"],
-  xml:         ["m8 7-4 5 4 5", "m16 7 4 5-4 5", "m14 5-4 14"],
-  react:       ["M12 12m-1.5 0a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0-3 0", "M12 12m-9 0a9 3.6 0 1 0 18 0a9 3.6 0 1 0-18 0", "M3.5 16.5C8 19 13 19.5 16.5 17.5 20 15.5 20.5 11 19 7", "M3.5 7.5C5 4 9 2.5 12.5 4.5 16 6.5 18 11 17 16"],
-  nextjs:      ["M12 3a9 9 0 1 0 5 16.5", "M8 7v10M16 17V7l-7 10"],
-  angular:     ["m12 3 8 3-1.5 12L12 21l-6.5-3L4 6z", "M9 16 12 8l3 8M10 13h4"],
-  vue:         ["m3 5 9 15 9-15M8 5l4 7 4-7"],
-  nodejs:      ["m12 3 8 5v8l-8 5-8-5V8z", "M10 9v6c0 .8.7 1.4 1.5 1.4S13 15.8 13 15v-6M16 10c-.4-.6-1.1-1-2-1-1.2 0-2 .7-2 1.7 0 2 4 1.3 4 3.3 0 1-1 1.7-2.2 1.7-.9 0-1.7-.4-2-1"],
-  nestjs:      ["m12 3 8 5v8l-8 5-8-5V8z", "M9 9v7M9 9l6 7M15 9v7"],
-  express:     ["M3 12h12M4 8a4 4 0 0 1 8 0c0 4-8 4-8 8a4 4 0 0 0 4 4M15 8l5 4-5 4"],
-  laravel:     ["m4 14 4 6h11l-7-12-4 1-4 5z", "m8 20 4-6 3 4"],
-  django:      ["M5 4h2v16h2c4 0 6-2 6-6s-2-6-6-6H7", "M16 4v3M16 9v11"],
-  rest:        ["M3 12a9 9 0 1 1 18 0a9 9 0 1 1-18 0", "M12 3v18M3 12h18M5 7c5 3 9 3 14 0M5 17c5-3 9-3 14 0"],
-  graphql:     ["m12 3 8 5v8l-8 5-8-5V8z", "m12 3 8 13M12 3 4 16M4 8h16", "M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0"],
-  websockets:  ["M3 8c4 0 8 4 8 8M3 14c2 0 4 2 4 4", "M21 16c-4 0-8-4-8-8M21 10c-2 0-4-2-4-4"],
-  microsvc:    ["M4 4h5v5H4zM15 4h5v5h-5zM4 15h5v5H4zM15 15h5v5h-5z", "M9 6.5h6M9 17.5h6M6.5 9v6M17.5 9v6"],
-  bullmq:      ["M3 6h13M3 12h13M3 18h13", "m18 6 3 3-3 3M21 9h-5"],
-  rabbitmq:    ["M5 4v8a3 3 0 0 0 3 3v6M11 4v8a3 3 0 0 0 3 3", "m14 15 4 .5v3.5h-3"],
-  jwt:         ["M5 8h14v8H5z", "M9 10v3a1.5 1.5 0 0 1-3 0M13 10v4M11 13h4M17 10v4"],
-  oauth:       ["M9 12a3 3 0 1 0 6 0a3 3 0 1 0-6 0", "M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.2 2.2M16.2 16.2l2.2 2.2M5.6 18.4l2.2-2.2M16.2 7.8l2.2-2.2"],
-  rbac:        ["M6 8c0 4 2 8 6 10 4-2 6-6 6-10l-6-3z", "M9 12l2 2 4-4"],
-  postgres:    ["M12 4c4 0 7 1.3 7 3v10c0 1.7-3 3-7 3s-7-1.3-7-3V7c0-1.7 3-3 7-3z", "M5 7c0 1.7 3 3 7 3s7-1.3 7-3"],
-  mongodb:     ["M12 3c-2 4-4 7-4 11 0 4 2 7 4 7s4-3 4-7c0-4-2-7-4-11z", "M12 21v-3"],
-  mysql:       ["M12 4c4 0 7 1.3 7 3v10c0 1.7-3 3-7 3s-7-1.3-7-3V7c0-1.7 3-3 7-3z", "M5 12c0 1.7 3 3 7 3s7-1.3 7-3M5 7c0 1.7 3 3 7 3s7-1.3 7-3"],
-  redis:       ["M12 4c4 0 7 1.3 7 3v10c0 1.7-3 3-7 3s-7-1.3-7-3V7c0-1.7 3-3 7-3z", "m10 10 3 2-3 2m4-4v4"],
-  dynamodb:    ["M12 4c4 0 7 1.3 7 3v10c0 1.7-3 3-7 3s-7-1.3-7-3V7c0-1.7 3-3 7-3z", "m8 10 4 4 4-4M8 14l4 4"],
-  prisma:      ["m12 3 6 16-7 2-5-3z"],
-  mongoose:    ["M5 10c3-4 11-4 14 0-3 4-11 4-14 0z", "M12 8v4"],
-  eloquent:    ["M5 4h14M5 12h10M5 20h14"],
-  aws:         ["m12 3 8 4.5v9L12 21l-8-4.5v-9z", "M4 7.5 12 12l8-4.5M12 12v9"],
-  docker:      ["M3 13h16c0 4-3 6-7 6-5 0-9-2-9-6z", "M5 13V9h2v4M8 13V9h2v4M11 13V9h2v4M14 13V9h2v4M8 8V4h2v4M11 8V4h2v4"],
-  gha:         ["M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0", "m10 8 5 4-5 4z"],
-  vercel:      ["m12 4 9 16H3z"],
-  nginx:       ["m12 3 8 5v8l-8 5-8-5V8z", "M9 16V8l6 8V8"],
-  git:         ["M6 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0", "M18 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0", "M12 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0", "M6 8v8a2 2 0 0 0 2 2h2M6 8c0 2 2 4 4 4h4"],
-  github:      ["M9 19c-3 1-3-1-4-1m13 5v-3a3 3 0 0 0-1-2c3 0 5-2 5-5 0-1.2-.4-2.3-1-3 .3-1 .3-2 0-3 0 0-1 0-3 1.3-2-.5-4-.5-6 0C7 4.7 6 4.7 6 4.7c-.3 1-.3 2 0 3-.6.7-1 1.8-1 3 0 3 2 5 5 5-.5.5-1 1-1 2v3"],
-  gitlab:      ["m12 22 4-12-2-6-2 6h-4l-2-6-2 6z"],
-  openai:      ["M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0", "m12 5 6 3v8l-6 3-6-3V8z", "M12 8v8M6 11l6 3 6-3"],
-  anthropic:   ["M7 20 12 4l5 16M9 14h6"],
-  vertex:      ["m12 3 9 18H3z", "m12 9 4.5 9h-9z"],
-  rag:         ["M4 6h16M4 10h16M4 14h10", "m16 14 4 4M18 16a2 2 0 1 0 4 0a2 2 0 1 0-4 0"],
-  pinecone:    ["M12 3c-2 5-3 9-3 13 0 2 1.3 3 3 3s3-1 3-3c0-4-1-8-3-13z", "M12 19v-4"],
+// Brand icons + colors. null color = uses currentColor (safe for both light/dark).
+const ICONS: Record<string, { Icon: IconType; color: string | null }> = {
+  typescript:  { Icon: SiTypescript,        color: '#3178C6' },
+  javascript:  { Icon: SiJavascript,        color: '#F7DF1E' },
+  python:      { Icon: SiPython,            color: '#3776AB' },
+  php:         { Icon: SiPhp,               color: '#777BB4' },
+  html:        { Icon: SiHtml5,             color: '#E34F26' },
+  css:         { Icon: SiCss,               color: '#1572B6' },
+  react:       { Icon: SiReact,             color: '#61DAFB' },
+  nextjs:      { Icon: SiNextdotjs,         color: null },
+  angular:     { Icon: SiAngular,           color: '#DD0031' },
+  vue:         { Icon: SiVuedotjs,          color: '#4FC08D' },
+  nodejs:      { Icon: SiNodedotjs,         color: '#339933' },
+  nestjs:      { Icon: SiNestjs,            color: '#E0234E' },
+  express:     { Icon: SiExpress,           color: null },
+  laravel:     { Icon: SiLaravel,           color: '#FF2D20' },
+  django:      { Icon: SiDjango,            color: '#092E20' },
+  graphql:     { Icon: SiGraphql,           color: '#E10098' },
+  rabbitmq:    { Icon: SiRabbitmq,          color: '#FF6600' },
+  postgres:    { Icon: SiPostgresql,        color: '#4169E1' },
+  mongodb:     { Icon: SiMongodb,           color: '#47A248' },
+  mysql:       { Icon: SiMysql,             color: '#4479A1' },
+  redis:       { Icon: SiRedis,             color: '#DC382D' },
+  prisma:      { Icon: SiPrisma,            color: null },
+  docker:      { Icon: SiDocker,            color: '#2496ED' },
+  gha:         { Icon: SiGithubactions,     color: '#2088FF' },
+  vercel:      { Icon: SiVercel,            color: null },
+  nginx:       { Icon: SiNginx,             color: '#009639' },
+  git:         { Icon: SiGit,               color: '#F05032' },
+  github:      { Icon: SiGithub,            color: null },
+  gitlab:      { Icon: SiGitlab,            color: '#FC6D26' },
+  openai:      { Icon: SiOpenai,            color: '#10A37F' },
+};
+
+const MONO_COLORS: Record<string, string> = {
+  json: '#6366F1', xml: '#005FAD', rest: '#009688', websockets: '#4A90D9',
+  microsvc: '#8B5CF6', bullmq: '#EF4444', jwt: '#F59E0B', oauth: '#EB5424',
+  rbac: '#5C3EE8', mongoose: '#880000', eloquent: '#FF2D20',
+  aws: '#FF9900', dynamodb: '#4053D6',
+  vertex: '#4285F4', rag: '#8B5CF6', anthropic: '#C96442', pinecone: '#5AB552',
 };
 
 function monogram(name: string) {
@@ -244,45 +246,21 @@ function StatCard({ value, label, accent }: { value: string; label: string; acce
   );
 }
 
-const TechIcon = memo(function TechIcon({ id, name, inView, rowIdx, segBase }: {
-  id: string;
-  name: string;
-  inView: boolean;
-  rowIdx: number;
-  segBase: number;
-}) {
-  const paths = GLYPHS[id];
+const TechIcon = memo(function TechIcon({ id, name }: { id: string; name: string }) {
+  const entry = ICONS[id];
+  const monoColor = MONO_COLORS[id];
+  const iconColor = entry?.color ?? null;
+  const style = (iconColor ?? monoColor)
+    ? ({ "--icon-color": iconColor ?? monoColor } as React.CSSProperties)
+    : undefined;
+
   return (
     <div className="tb-tile" aria-hidden="true">
       <span className="tb-tile-ink" />
-      <span className="tb-tile-content">
-        {paths ? (
-          <svg
-            viewBox="0 0 24 24"
-            width="14"
-            height="14"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            {paths.map((d, si) => (
-              <motion.path
-                key={si}
-                d={d}
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={inView ? { pathLength: 1, opacity: 1 } : {}}
-                transition={{
-                  pathLength: { duration: 0.9, ease: [0.2, 0.7, 0.2, 1], delay: rowIdx * 0.06 + (segBase + si) * 0.015 },
-                  opacity: { duration: 0.3, delay: rowIdx * 0.06 + (segBase + si) * 0.015 },
-                }}
-              />
-            ))}
-          </svg>
-        ) : (
-          <span className="tb-monogram">{monogram(name)}</span>
-        )}
+      <span className="tb-tile-content" style={style}>
+        {entry
+          ? <entry.Icon size={13} />
+          : <span className="tb-monogram">{monogram(name)}</span>}
       </span>
     </div>
   );
@@ -423,25 +401,18 @@ export default function AboutSection() {
               const items = TECH.filter(t => t.cat === c.id);
               const isDim = activeCat !== "all" && c.id !== activeCat;
               // compute a per-row base offset so icons stagger globally
-              const segBase = CATS.slice(1, rowIdx + 1).reduce((acc, cat) => acc + TECH.filter(t => t.cat === cat.id).length, 0);
               return (
                 <div key={c.id} className={`tb-row${isDim ? " is-dim" : ""}`}>
                   <div className="tb-row-label">{c.label}</div>
                   <div className="tb-row-chips">
-                    {items.map((t, chipIdx) => (
+                    {items.map((t) => (
                       <span
                         key={t.id}
                         className={`tb-chip${t.tier === "daily" ? " is-daily" : ""}`}
                         title={`${t.name} · ${t.tier}`}
                       >
-                        <TechIcon
-                          id={t.id}
-                          name={t.name}
-                          inView={skillsInView}
-                          rowIdx={rowIdx}
-                          segBase={segBase + chipIdx}
-                        />
-                        <span className="tb-chip-name">{t.name}</span>
+                        <TechIcon id={t.id} name={t.name} />
+                        <span>{t.name}</span>
                       </span>
                     ))}
                   </div>
@@ -480,10 +451,10 @@ export default function AboutSection() {
         .tb-chip:hover { border-color:var(--border-strong); transform:translateY(-1px); }
         .tb-chip.is-daily::before { content:''; position:absolute; top:4px; right:5px; width:4px; height:4px; border-radius:999px; background:var(--accent); }
         .tb-tile { position:relative; flex-shrink:0; width:24px; height:24px; border-radius:999px; border:1px solid var(--border); background:var(--bg); color:var(--fg-2); overflow:hidden; transition:border-color 250ms var(--ease); }
-        .tb-tile-content { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:2; transition:color 250ms var(--ease); }
+        .tb-tile-content { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:2; color:var(--icon-color, var(--fg-2)); transition:color 250ms var(--ease); }
         .tb-tile-ink { position:absolute; left:0; right:0; bottom:0; height:0; background:var(--accent); z-index:1; transition:height 380ms var(--ease); }
         .tb-chip:hover .tb-tile { border-color:var(--accent); }
-        .tb-chip:hover .tb-tile-content { color:var(--accent-fg); }
+        .tb-chip:hover .tb-tile-content { color:var(--accent-fg) !important; }
         .tb-chip:hover .tb-tile-ink { height:100%; }
         .tb-monogram { font-family:var(--font-display); font-style:italic; font-weight:400; font-size:12px; line-height:1; letter-spacing:-0.02em; color:inherit; }
         @media (max-width:720px) { .tb-row { grid-template-columns:1fr; gap:8px; padding:14px 0; } .tb-row-label { padding-top:0; } }

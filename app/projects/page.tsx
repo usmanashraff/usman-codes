@@ -34,7 +34,7 @@ const ARCHIVE: ArchiveGroup[] = [
         sub: "multi-tenant warehouse management system",
         desc: "Production WMS for 3PL providers. Multi-tenant with full data isolation, real-time inventory across warehouses and bins, inbound PO handling, outbound fulfillment, and order sync with Shopify, Amazon, Walmart, TikTok Shop, and more.",
         tags: ["NestJS", "Node.js", "React", "PostgreSQL", "Prisma", "TypeScript", "Tailwind", "shadcn/ui"],
-        href: "https://3pl-logistics.eleaderz.com/",
+        href: "https://3plsmart.com/",
       },
       {
         n: "/01",

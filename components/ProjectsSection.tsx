@@ -12,7 +12,7 @@ const PROJECTS = [
     sub: "Multi-tenant warehouse management system",
     desc: "A production WMS for 3PL providers. Multi-tenant with full data isolation, real-time inventory across warehouses and bins, and order sync with Shopify, Amazon, Walmart, TikTok Shop, and more.",
     stack: ["NestJS", "Node.js", "React", "PostgreSQL", "Prisma", "TypeScript", "Tailwind", "shadcn/ui"],
-    live: "https://3pl-logistics.eleaderz.com/",
+    live: "https://3plsmart.com/",
     featured: true,
   },
   {
@@ -374,7 +374,7 @@ function ViewAllBtn() {
     >
       View all projects
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M5 12h14M13 6l6 6-6 6"/>
+        <path d="M5 12h14M13 6l6 6-6 6" />
       </svg>
     </Link>
   );

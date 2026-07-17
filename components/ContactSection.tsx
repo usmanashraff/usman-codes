@@ -574,7 +574,7 @@ export default function ContactSection() {
 
         /* Social pills + shared tile styles */
         .tb-tile { position:relative; flex-shrink:0; width:24px; height:24px; border-radius:999px; border:1px solid var(--border); background:var(--bg); color:var(--fg-2); overflow:hidden; transition:border-color 250ms var(--ease); }
-        .tb-tile-content { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:2; transition:color 250ms var(--ease); }
+        .tb-tile-content { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:2; color:var(--icon-color, var(--fg-2)); transition:color 250ms var(--ease); }
         .tb-tile-ink { position:absolute; left:0; right:0; bottom:0; height:0; background:var(--accent); z-index:1; transition:height 380ms var(--ease); }
         .social-pill { display:inline-flex; align-items:center; gap:10px; padding:8px 14px 8px 8px; border-radius:999px; border:1px solid var(--border); background:var(--bg); text-decoration:none; color:var(--fg-1); font-family:var(--font-body); font-size:13px; font-weight:500; transition:border-color 200ms var(--ease),transform 200ms var(--ease); }
         .social-pill:hover { border-color:var(--border-strong); transform:translateY(-2px); }

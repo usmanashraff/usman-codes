@@ -12,6 +12,18 @@ export interface Project {
 
 export const projects: Project[] = [
     {
+        title: "3PL Logistics — AI Warehouse Management System",
+        description:
+            "A production WMS for 3PL providers featuring multi-tenant data isolation, real-time inventory across warehouses and bins, and intelligent AI modules including an AI chat assistant and automated AI summaries of warehouse operations, orders, and shipments.",
+        image: "/threads.png",
+        tags: ["NestJS", "Node.js", "React", "PostgreSQL", "Prisma", "AI / LLM", "TypeScript"],
+        links: {
+            demo: "http://3plsmart.com/",
+            github: "",
+        },
+        reverse: false,
+    },
+    {
         title: "Qubie — Chat with Your Documents",
         description:
             "An AI-powered document intelligence platform that allows users to upload multiple documents and interact with them through a contextual chat interface. Chat with your documents seamlessly.",

@@ -31,10 +31,10 @@ const ARCHIVE: ArchiveGroup[] = [
       {
         n: "/02",
         title: "3PL Logistics",
-        sub: "multi-tenant warehouse management system",
-        desc: "Production WMS for 3PL providers. Multi-tenant with full data isolation, real-time inventory across warehouses and bins, inbound PO handling, outbound fulfillment, and order sync with Shopify, Amazon, Walmart, TikTok Shop, and more.",
-        tags: ["NestJS", "Node.js", "React", "PostgreSQL", "Prisma", "TypeScript", "Tailwind", "shadcn/ui"],
-        href: "https://3plsmart.com/",
+        sub: "AI-powered warehouse management system",
+        desc: "Production WMS for 3PL providers featuring multi-tenant data isolation, real-time inventory across warehouses and bins, inbound PO handling, outbound fulfillment, multi-channel sync (Shopify, Amazon, Walmart, TikTok Shop), and intelligent AI modules including an AI chat assistant and automated AI summaries of warehouse operations, orders, and shipments.",
+        tags: ["NestJS", "Node.js", "React", "PostgreSQL", "Prisma", "AI / LLM", "TypeScript", "Tailwind"],
+        href: "http://3plsmart.com/",
       },
       {
         n: "/01",
